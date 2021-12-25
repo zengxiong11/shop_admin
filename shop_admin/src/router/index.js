@@ -23,14 +23,14 @@ export const constantRoutes = [{
     {
         path: '/',
         component: Layout,
-        redirect: '/dashboard',
+        redirect: '/user',
         children: [{
-            path: 'dashboard',
-            name: 'Dashboard',
+            path: 'user',
+            name: '用户管理',
             component: () =>
-                import ('@/views/dashboard/index'),
-            meta: { title: 'Dashboard', icon: 'dashboard' }
-        }]
+                import ('@/views/user/index'),
+            meta: { title: '用户管理', icon: 'dashboard' }
+        }, ]
     },
 
     {

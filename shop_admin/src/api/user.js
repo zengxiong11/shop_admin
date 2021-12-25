@@ -7,10 +7,17 @@ export function login(data) {
         data
     })
 }
+export function getUser() {
+    return request({
+        url: '/users',
+        method: 'get'
+    })
+}
+
 
 export function getInfo(token) {
     return request({
-        url: '//user/info',
+        url: '/user/info',
         method: 'get',
         params: { token }
     })
@@ -18,7 +25,7 @@ export function getInfo(token) {
 
 export function logout() {
     return request({
-        url: '//user/logout',
+        url: '/user/logout',
         method: 'post'
     })
 }
