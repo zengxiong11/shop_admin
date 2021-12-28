@@ -10,35 +10,35 @@
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="用户名">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ scope.row.username }}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="角色" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
+       <el-table-column label="电话" width="110" align="center">
         <template slot-scope="scope">
-          {{ scope.row.pageviews }}
+          {{ scope.row.mobile }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+      <el-table-column label="邮箱" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
+          {{ scope.row.email }}
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
+          <el-switch v-model="scope.row.mg_state"></el-switch>
         </template>
       </el-table-column>
+
     </el-table>
   </div>
 </template>
@@ -59,6 +59,14 @@ export default {
   },
   data() {
     return {
+      // 获取用户列表的参数对象
+      queryInfo: {
+        query: '',
+        // 当前的页数
+        pagenum: 1,
+        // 当前每页显示多少条数据
+        pagesize: 5
+      },
       list: null,
       listLoading: true
     }
@@ -69,8 +77,9 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
+      getList(this.queryInfo).then(response => {
+        console.log(response,'user')
+        this.list = response.data.users
         this.listLoading = false
       })
     }

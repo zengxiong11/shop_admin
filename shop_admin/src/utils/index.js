@@ -56,42 +56,29 @@ export function parseTime(time, cFormat) {
  * @param {string} option
  * @returns {string}
  */
-export function formatTime(time, option) {
-    if (('' + time).length === 10) {
-        time = parseInt(time) * 1000
-    } else {
-        time = +time
+// filters/index.js
+export function formatDate(date, fmt) {
+    date = new Date(date);
+    if (typeof(fmt) === "undefined") {
+        fmt = "yyyy-MM-dd HH:mm:ss";
     }
-    const d = new Date(time)
-    const now = Date.now()
-
-    const diff = (now - d) / 1000
-
-    if (diff < 30) {
-        return '刚刚'
-    } else if (diff < 3600) {
-        // less 1 hour
-        return Math.ceil(diff / 60) + '分钟前'
-    } else if (diff < 3600 * 24) {
-        return Math.ceil(diff / 3600) + '小时前'
-    } else if (diff < 3600 * 24 * 2) {
-        return '1天前'
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
     }
-    if (option) {
-        return parseTime(time, option)
-    } else {
-        return (
-            d.getMonth() +
-            1 +
-            '月' +
-            d.getDate() +
-            '日' +
-            d.getHours() +
-            '时' +
-            d.getMinutes() +
-            '分'
-        )
+    let o = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'H+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds()
     }
+    for (let k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+            let str = o[k] + ''
+            fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : ('00' + str).substr(str.length));
+        }
+    }
+    return fmt
 }
 
 /**

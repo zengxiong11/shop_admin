@@ -6,12 +6,15 @@ const getDefaultState = () => {
     return {
         token: getToken(),
         name: '',
-        avatar: ''
+        avatar: '',
+        addFundDialog: {
+            title: '新增资金信息',
+            type: 'add'
+        },
     }
 }
 
 const state = getDefaultState()
-
 const mutations = {
     RESET_STATE: (state) => {
         Object.assign(state, getDefaultState())
@@ -24,6 +27,16 @@ const mutations = {
     },
     SET_AVATAR: (state, avatar) => {
         state.avatar = avatar
+    },
+    //弹窗页面类型
+    SET_DIALOG_TITLE: (state, type) => {
+        if (type === 'add') {
+            state.addFundDialog.type = 'add'
+            state.addFundDialog.title = '新增页面信息'
+        } else {
+            state.addFundDialog.type = 'edit'
+            state.addFundDialog.title = '编辑页面信息'
+        }
     }
 }
 
